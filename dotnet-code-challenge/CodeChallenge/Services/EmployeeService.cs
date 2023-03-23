@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CodeChallenge.Models;
 using Microsoft.Extensions.Logging;
 using CodeChallenge.Repositories;
+using System.Linq.Expressions;
 
 namespace CodeChallenge.Services
 {
@@ -30,14 +31,34 @@ namespace CodeChallenge.Services
             return employee;
         }
 
-        public Employee GetById(string id)
+        public Employee GetById(String id)
         {
-            if(!String.IsNullOrEmpty(id))
+            return GetById(id, null);
+        }
+
+        public Employee GetById(String id, Expression<Func<Employee, object>> includes)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+
+            if(includes == null)
             {
                 return _employeeRepository.GetById(id);
             }
 
-            return null;
+            return _employeeRepository.GetById(id, includes);
+        }
+
+        public List<Employee> GetDirectReports(String id)
+        {
+            if(id == null)
+            {
+                return null;
+            }
+
+            return _employeeRepository.GetById(id, e => e.DirectReports).DirectReports;
         }
 
         public Employee Replace(Employee originalEmployee, Employee newEmployee)

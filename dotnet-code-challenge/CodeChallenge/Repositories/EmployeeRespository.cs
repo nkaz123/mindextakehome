@@ -6,6 +6,7 @@ using CodeChallenge.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using CodeChallenge.Data;
+using System.Linq.Expressions;
 
 namespace CodeChallenge.Repositories
 {
@@ -27,9 +28,14 @@ namespace CodeChallenge.Repositories
             return employee;
         }
 
-        public Employee GetById(string id)
+        public Employee GetById(String id)
         {
             return _employeeContext.Employees.SingleOrDefault(e => e.EmployeeId == id);
+        }
+
+        public Employee GetById(String id, Expression<Func<Employee, object>> includes)
+        {
+            return _employeeContext.Employees.Include(includes).SingleOrDefault(e => e.EmployeeId == id);
         }
 
         public Task SaveAsync()
