@@ -1,3 +1,4 @@
 obj
 .vs
 bin
+dotnet-code-challenge/CodeChallenge/CodeChallenge.csproj.user
