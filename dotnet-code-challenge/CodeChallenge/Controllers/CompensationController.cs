@@ -7,7 +7,7 @@ using System;
 namespace CodeChallenge.Controllers
 {
     [ApiController]
-    [Route("api/employee")]
+    [Route("api/compensation")]
     public class CompensationController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -27,11 +27,11 @@ namespace CodeChallenge.Controllers
 
             _compensationService.Create(id, compensation);
 
-            return CreatedAtRoute("createCompensation", new { id = compensation.CompensationId }, compensation);
+            return CreatedAtRoute("getCompensationByEmployeeId", new { id = compensation.CompensationId }, compensation);
         }
 
-        [HttpGet("{id}", Name = "getEmployeeById")]
-        public IActionResult GetEmployeeById(String id)
+        [HttpGet("{id}", Name = "getCompensationByEmployeeId")]
+        public IActionResult GetCompensationByEmployeeId(String id)
         {
             _logger.LogDebug($"Received compensation get request for '{id}'");
 

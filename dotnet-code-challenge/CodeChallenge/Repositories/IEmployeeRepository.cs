@@ -11,6 +11,7 @@ namespace CodeChallenge.Repositories
         Employee GetById(String id, Expression<Func<Employee, object>> includes);
         Employee Add(Employee employee);
         Employee Remove(Employee employee);
+        Compensation Add(Employee employee, Compensation compensation);
         Task SaveAsync();
     }
 }

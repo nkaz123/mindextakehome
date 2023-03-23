@@ -12,6 +12,13 @@
       {
         "employeeId": "03aa1462-ffa9-4978-901b-7c001562cf6f"
       }
+    ],
+    "compensations": [
+      {
+        "compensationId": "1",
+        "effectiveDate": "2023-03-23",
+        "salary": "20000"
+      }
     ]
   },
   {

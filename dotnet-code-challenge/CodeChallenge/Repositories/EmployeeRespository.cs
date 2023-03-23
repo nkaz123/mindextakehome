@@ -28,6 +28,13 @@ namespace CodeChallenge.Repositories
             return employee;
         }
 
+        public Compensation Add(Employee employee, Compensation compensation)
+        {
+            employee.Compensations = employee.Compensations == null ? new List<Compensation>() : employee.Compensations;
+            employee.Compensations.Add(compensation);
+            return compensation;
+        }
+
         public Employee GetById(String id)
         {
             return _employeeContext.Employees.SingleOrDefault(e => e.EmployeeId == id);
