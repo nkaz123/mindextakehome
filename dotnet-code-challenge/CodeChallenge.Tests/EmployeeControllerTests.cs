@@ -1,8 +1,10 @@
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-
+using System.Threading.Tasks;
 using CodeChallenge.Models;
 
 using CodeCodeChallenge.Tests.Integration.Extensions;
@@ -101,7 +103,7 @@ namespace CodeCodeChallenge.Tests.Integration
             var putRequestTask = _httpClient.PutAsync($"api/employee/{employee.EmployeeId}",
                new StringContent(requestContent, Encoding.UTF8, "application/json"));
             var putResponse = putRequestTask.Result;
-            
+
             // Assert
             Assert.AreEqual(HttpStatusCode.OK, putResponse.StatusCode);
             var newEmployee = putResponse.DeserializeContent<Employee>();
@@ -131,6 +133,24 @@ namespace CodeCodeChallenge.Tests.Integration
 
             // Assert
             Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task ReportStructureReturnsFullStructureAsync()
+        {
+            // Execute
+            var getRequestTask = await _httpClient.GetAsync($"api/employee/16a596ae-edd3-4847-99fe-c4518e82c86f/reportingstructure");
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, getRequestTask.StatusCode);
+
+            var reportStructure = getRequestTask.DeserializeContent<ReportingStructure>();
+
+            //Assert NumberOfReports was calculated correctly
+            Assert.AreEqual(4, reportStructure.NumberOfReports);
+
+            //Assert returned structure looks right
+            Assert.IsNotNull(reportStructure.Employee.DirectReports.Where(e => e.EmployeeId == "03aa1462-ffa9-4978-901b-7c001562cf6f").Single().DirectReports.Where(e => e.EmployeeId == "62c1084e-6e34-4630-93fd-9153afb65309").Single());
         }
     }
 }
